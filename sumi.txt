@@ -1,0 +1,177 @@
+Name:Sharmin Sultana Sumi
+ID:221-15-5117
+
+1.Print the maximum element of the given array.
+
+Sample Input: 5
+-2 -19 8 15 4
+Sample Output:15
+
+#include<stdio.h>
+int main(){
+int n;
+scanf("%d",&n);
+int ar[n];
+for(int i=0;i<n;i++){
+    scanf("%d",&ar[i]);
+}
+int max=ar[0];
+for(int i=1;i<n;i++){
+    if(ar[i]>max){
+       max=ar[i];
+    }
+}
+printf("%d",max);
+return 0;
+}
+
+2.Print "true" if key is present in the array, otherwise, print false.
+
+Sample Input:5 key=19
+2 19 23 35 38
+Sample Output:true
+
+#include<stdio.h>
+int binarysearch(int ar[],int size,int key)
+{
+    int l=0;
+    int r=size-1;
+    while(l<=r)
+    {
+        int mid=l+(r-l)/2;
+        if(ar[mid]==key)
+        {
+            return 1;
+        }
+        else if(ar[mid]<key)
+        {
+            l=mid+1;
+        }
+        else
+        {
+            r=mid-1;
+        }
+    }
+    return 0;
+}
+int main()
+{
+    int n,key;
+    scanf("%d%d",&n,&key);
+    int ar[n];
+    for(int i=0; i<n; i++)
+    {
+        scanf("%d",&ar[i]);
+    }
+    int found=binarysearch(ar,n,key);
+    if(found)
+    {
+        printf("true\n");
+    }
+    else
+    {
+        printf("false\n");
+    }
+    return 0;
+}
+
+3.f(n) = 1+2+3+4+5+6+7+8+9+2 = 47
+f(f(n)) = 4 + 7 = 11
+f(f(f(n))) = 1 + 1 = 2
+Therefore, g(1234567892) = 2.
+Input
+Each line of input contains a single positive integer n at most 2,000,000,000. Input is terminated
+by n = 0 which should not be processed.
+Output
+For each such integer, you are to output a single
+line containing g(n).
+Sample Input
+2
+11
+47
+1234567892
+0
+Sample Output
+2
+2
+2
+2
+#include <stdio.h>
+
+int sumOfDigits(int n) {
+    int sum = 0;
+    while (n > 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    return sum;
+}
+
+int g(int n) {
+    if (n < 10) {
+        return n;
+    }
+    return g(sumOfDigits(n));
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    while (n != 0) {
+        printf("%d\n", g(n));
+        scanf("%d", &n);
+    }
+    return 0;
+}
+
+4.Sample Input:3
+3
+1 3 2
+4
+4 3 2 1
+2
+2 1
+Sample Output
+Optimal train swapping takes 1 swaps.
+Optimal train swapping takes 6 swaps.
+Optimal train swapping takes 1 swaps.
+#include <stdio.h>
+
+int countSwaps(int arr[], int L) {
+    int swaps = 0;
+
+    for (int i = 0; i < L; i++) {
+        for (int j = 0; j < L - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+
+                swaps++;
+            }
+        }
+    }
+
+    return swaps;
+}
+
+int main() {
+    int N;
+    scanf("%d", &N);
+
+    while (N--) {
+        int L;
+        scanf("%d", &L); 
+        int arr[L];
+
+        for (int i = 0; i < L; i++) {
+            scanf("%d", &arr[i]);
+        }
+
+        int swapsNeeded = countSwaps(arr, L);
+        printf("Optimal train swapping takes %d swaps.\n", swapsNeeded);
+    }
+
+    return 0;
+}
+
