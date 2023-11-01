@@ -1,0 +1,199 @@
+Problem:1
+Sample Input
+2
+40 40
+80
+5
+10 2 6 8 4
+10
+Sample Output
+Peter should buy books whose prices are 40 and 40.
+Peter should buy books whose prices are 4 and 6.
+
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+ int N,i,j;
+ while (scanf("%d", &N) != EOF) {
+ int prices[N];
+ for (i = 0; i < N; i++) {
+ scanf("%d", &prices[i]);
+ }
+ int M;
+ scanf("%d", &M);
+ int minDiff = M;
+ int book1, book2;
+ for (i = 0; i < N; i++) {
+ for (j = i + 1; j < N; j++) {
+ if (prices[i] + prices[j] == M) {
+ int diff = abs(prices[i] - prices[j]);
+ if (diff < minDiff) {
+ minDiff = diff;
+ book1 = prices[i];
+ book2 = prices[j];
+ }
+ }
+ }
+ }
+ if (book1 > book2) {
+ int temp = book1;
+ book1 = book2;
+ book2 = temp;
+ }
+ printf("Peter should buy books whose prices are %d and %d.\n\n", book1, book2);
+ }
+return 0;
+}
+
+Problem:2
+Input	
+8 5
+10 9 8 7 7 7 5 5
+Output 6
+Sample 2
+Input	
+4 2
+0 0 0 0
+Output 0
+
+#include <stdio.h>
+int main() {
+ int n, k;
+scanf("%d %d", &n, &k);
+ int score[n];
+ for (int i = 0; i < n; i++) {
+ scanf("%d", &score[i]);
+ }
+ int count = 0;
+ int k_score = score[k - 1];
+ for (int i = 0; i < n; i++) {
+ if (score[i] >= k_score && score[i] > 0) {
+ count++;
+ }
+ }
+printf("%d\n", count);
+return 0;
+}
+
+Problem:3
+Sample 1
+Input
+512 4
+Output 50
+Sample 2
+Input
+1000000000 9
+Output 1
+
+#include <stdio.h>
+ int main() {
+ int n, k;
+ scanf("%d %d", &n, &k);
+ for (int i = 0; i < k; i++) {
+ if (n % 10 != 0) {
+ n--; 
+ } else {
+ n /= 10; 
+ }
+ }
+printf("%d\n", n);
+return 0;
+}
+
+Problem:4
+Sample Input
+2
+3
+2 3 5
+4
+1 2 4 6
+Sample Output
+0
+1
+
+#include <stdio.h>
+#include <stdlib.h>
+int minDivision(int m, int coins[]) {
+ int total = 0,i,j;
+ for (i = 0; i < m; i++) {
+ total += coins[i];
+ }
+ int half_total = total / 2;
+ int *dp = (int *)malloc((half_total + 1) * sizeof(int));
+ for (i = 0; i <= half_total; i++) {
+ dp[i] = 0;
+ }
+ for (i = 0; i < m; i++) {
+ for ( j = half_total; j >= coins[i]; j--) {
+ dp[j] = (dp[j] > dp[j - coins[i]] + coins[i]) ? dp[j] : dp[j - coins[i]] + coins[i];
+ }
+ }
+int difference = total - 2 * dp[half_total];
+ free(dp);
+ return difference;
+}
+int main() {
+ int n,i,j;
+ scanf("%d", &n);
+ for (i = 0; i < n; i++) {
+ int m;
+ scanf("%d", &m);
+ int coins[100];
+ for (j = 0; j < m; j++) {
+ scanf("%d", &coins[j]);
+ }
+ int difference = minDivision(m, coins);
+ printf("%d\n", difference);
+ }
+ return 0;
+}
+
+Problem : 5
+Sample Input
+bcacbcabbaccbab
+bccabccbbabacbc
+a1b2c3d4e
+zz1yy2xx3ww4vv
+abcdgh
+aedfhr
+abcdefghijklmnopqrstuvwxyz
+a0b0c0d0e0f0g0h0i0j0k0l0m0n0o0p0q0r0s0t0u0v0w0x0y0z0
+abcdefghijklmnzyxwvutsrqpo
+opqrstuvwxyzabcdefghijklmn
+Sample Output
+11
+4
+3
+26
+14
+
+#include<stdio.h>
+#include<string.h>
+#define SIZE 1024
+char x[SIZE], y[SIZE];
+int lcs[SIZE][SIZE];
+int maxval(int a, int b)
+{
+ return a > b ? a : b;
+}
+int main()
+{
+ int i, j;
+ while(gets(x) && gets(y))
+ {
+ int xlen = strlen(x);
+ int ylen = strlen(y);
+ for(i = 1; i <= xlen; ++i)
+ {
+ for(j = 1; j <= ylen; ++j)
+ {
+ if(x[i-1] == y[j-1])
+ lcs[i][j] = lcs[i-1][j-1] + 1;
+ else
+ lcs[i][j] = maxval(lcs[i-1][j], lcs[i][j-1]);
+ }
+ }
+ printf("%d\n", lcs[xlen][ylen] );
+ }
+ return 0;
+}
